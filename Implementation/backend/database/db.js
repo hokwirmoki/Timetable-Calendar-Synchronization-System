@@ -8,11 +8,14 @@ const initDbSchema = async (p) => {
     await p.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
+        name VARCHAR(100),
         student_number VARCHAR(50) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
         role VARCHAR(20) NOT NULL DEFAULT 'student',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS name VARCHAR(100);
 
       CREATE TABLE IF NOT EXISTS timetable_events (
         id SERIAL PRIMARY KEY,
