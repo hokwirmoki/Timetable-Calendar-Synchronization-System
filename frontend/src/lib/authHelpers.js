@@ -2,6 +2,7 @@
 // Commit 2/5 - Added documentation and helper comment
 // Commit 3/5 - Added isAuthenticated helper
 // Commit 4/5 - Added clearAuthData helper
+// Commit 5/5 - Added logout helper function
 
 // Auth helpers for token management and user context
 export const getAuthToken = () => localStorage.getItem('token');
@@ -11,7 +12,6 @@ export const removeAuthToken = () => localStorage.removeItem('token');
 export const getUserContext = () => {
   const token = getAuthToken();
   if (!token) return null;
-  // Basic manual decode for simplicity. Alternative is adding jwt-decode.
   try {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -29,11 +29,17 @@ export const isAuthenticated = () => {
   return !!token;
 };
 
-// New helper: Clear all auth related data
 export const clearAuthData = () => {
   removeAuthToken();
   localStorage.removeItem('user');
   localStorage.removeItem('role');
+};
+
+// Final helper: Complete logout function
+export const logout = () => {
+  clearAuthData();
+  // You can add window.location.href = '/login' later if needed
+  console.log('User logged out successfully');
 };
 
 
