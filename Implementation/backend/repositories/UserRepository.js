@@ -18,10 +18,11 @@ export class UserRepository {
     }
   }
 
-  static async createUser(studentNumber, passwordHash, role) {
+  static async createUser(studentNumber, passwordHash, role, name = null) {
     if (!getDb()) {
       const user = {
         id: Date.now(),
+        name: name,
         student_number: studentNumber,
         password_hash: passwordHash,
         role: role,
@@ -33,8 +34,8 @@ export class UserRepository {
 
     try {
       const res = await query(
-        'INSERT INTO users (student_number, password_hash, role) VALUES ($1, $2, $3) RETURNING id, student_number, role, created_at',
-        [studentNumber, passwordHash, role]
+        'INSERT INTO users (name, student_number, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id, name, student_number, role, created_at',
+        [name, studentNumber, passwordHash, role]
       );
       return res.rows[0];
     } catch (e) {
