@@ -1,5 +1,8 @@
 // Commit 1/5 - Testing git workflow
 // Commit 2/5 - Added documentation and helper comment
+// Commit 3/5 - Added isAuthenticated helper
+// Commit 4/5 - Added clearAuthData helper
+
 // Auth helpers for token management and user context
 export const getAuthToken = () => localStorage.getItem('token');
 export const setAuthToken = (token) => localStorage.setItem('token', token);
@@ -20,9 +23,17 @@ export const getUserContext = () => {
     return null;
   }
 };
+
 export const isAuthenticated = () => {
   const token = getAuthToken();
-  return !!token; // Returns true if token exists
+  return !!token;
+};
+
+// New helper: Clear all auth related data
+export const clearAuthData = () => {
+  removeAuthToken();
+  localStorage.removeItem('user');
+  localStorage.removeItem('role');
 };
 
 
