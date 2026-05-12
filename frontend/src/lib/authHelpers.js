@@ -1,4 +1,6 @@
 // Commit 1/5 - Testing git workflow
+// Commit 2/5 - Added documentation and helper comment
+// Auth helpers for token management and user context
 export const getAuthToken = () => localStorage.getItem('token');
 export const setAuthToken = (token) => localStorage.setItem('token', token);
 export const removeAuthToken = () => localStorage.removeItem('token');
