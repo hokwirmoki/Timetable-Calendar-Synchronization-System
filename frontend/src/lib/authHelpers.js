@@ -1,3 +1,4 @@
+// Commit 1/5 - Testing git workflow
 export const getAuthToken = () => localStorage.getItem('token');
 export const setAuthToken = (token) => localStorage.setItem('token', token);
 export const removeAuthToken = () => localStorage.removeItem('token');
