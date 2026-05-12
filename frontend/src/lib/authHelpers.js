@@ -20,3 +20,9 @@ export const getUserContext = () => {
     return null;
   }
 };
+export const isAuthenticated = () => {
+  const token = getAuthToken();
+  return !!token; // Returns true if token exists
+};
+
+
