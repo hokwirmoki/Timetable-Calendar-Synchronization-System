@@ -9,11 +9,14 @@ export default function DashboardPage() {
   const { subscribe, feedUrl, loading, error } = useSubscription();
   const user = getUserContext();
 
-  const handleSubscribe = () => {
-    // Uses the authenticated student context
-    const studentRegNumber = user?.student_number || '23/U/16751/PS';
+  // Extracted student registration number for better readability (Commit 2/2)
+  const studentRegNumber = user?.student_number || '23/U/16751/PS';
+
+    const handleSubscribe = () => {
+    // Uses the authenticated student context (Commit 2/2)
     subscribe(studentRegNumber);
   };
+  
 
   return (
     <div className="max-w-7xl mx-auto space-y-4">
