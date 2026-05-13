@@ -1,3 +1,5 @@
+// Commit 1/2 - Dashboard Page Improvements
+// Student Main Dashboard with Enrollment Overview
 import React, { useState } from 'react';
 import { CheckCircle, Download, Calendar as CalendarIcon, RefreshCw, Printer, Edit } from 'lucide-react';
 import { useSubscription } from '../hooks/useSubscription.js';
