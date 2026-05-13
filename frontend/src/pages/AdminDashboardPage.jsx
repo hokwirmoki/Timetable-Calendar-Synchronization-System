@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { removeAuthToken, getUserContext, getAuthToken } from '../lib/authHelpers';
 import { LogOut, Calendar, Plus, Edit2, Trash2 } from 'lucide-react';
+
 const DEFAULT_FORM_DATA = {
   course_code: '', 
   course_name: '', 
@@ -17,23 +18,14 @@ const DEFAULT_FORM_DATA = {
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
   const user = getUserContext();
+  
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
   // Form State
   const [editingId, setEditingId] = useState(null);
- const defaultFormData = {
-  course_code: '', 
-  course_name: '', 
-  lecturer: '', 
-  location: '', 
-  day_of_week: '0', 
-  start_time: '', 
-  end_time: ''
-};
-
-const [formData, setFormData] = useState(defaultFormData);
+  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
   const fetchEvents = async () => {
     try {
@@ -58,6 +50,12 @@ const [formData, setFormData] = useState(defaultFormData);
   const handleLogout = () => {
     removeAuthToken();
     navigate('/login');
+  };
+
+  // Helper function - Reset form (Commit 3/3)
+  const resetForm = () => {
+    setEditingId(null);
+    setFormData(DEFAULT_FORM_DATA);
   };
 
   const handleEdit = (ev) => {
@@ -110,16 +108,17 @@ const [formData, setFormData] = useState(defaultFormData);
       
       if (!res.ok) throw new Error('Failed to save');
       
-      // Reset form & Refresh
-      setEditingId(null);
-      setFormData({ course_code: '', course_name: '', lecturer: '', location: '', day_of_week: '0', start_time: '', end_time: '' });
+      resetForm();
       fetchEvents();
     } catch (err) {
       alert(err.message);
     }
   };
 
-  const daysMap = { 0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday' };
+  const daysMap = { 
+    0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 
+    3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday' 
+  };
 
   return (
     <div className="min-h-screen bg-[#F4F6F9] font-sans">
@@ -141,7 +140,6 @@ const [formData, setFormData] = useState(defaultFormData);
       </header>
 
       <main className="max-w-7xl mx-auto p-6 space-y-6">
-        
         <div className="bg-white border border-gray-200 rounded-sm p-6 shadow-sm">
           <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
             <Calendar className="text-[#1A935A]" /> Timetable Management
@@ -153,6 +151,7 @@ const [formData, setFormData] = useState(defaultFormData);
             <div className="lg:col-span-1 bg-gray-50 p-4 border border-gray-200 rounded-sm h-fit">
               <h3 className="font-bold text-gray-700 mb-4">{editingId ? 'Edit Event' : 'Add New Event'}</h3>
               <form onSubmit={handleSubmit} className="space-y-3">
+                {/* Form fields remain the same */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Course Code</label>
                   <input required value={formData.course_code} onChange={e => setFormData({...formData, course_code: e.target.value})} type="text" placeholder="e.g. BSE 3201" className="w-full border px-3 py-2 text-sm focus:ring-1 focus:ring-[#1A935A] outline-none" />
@@ -197,7 +196,11 @@ const [formData, setFormData] = useState(defaultFormData);
                     {editingId ? <Edit2 size={16}/> : <Plus size={16}/>} {editingId ? 'Update' : 'Add'} Event
                   </button>
                   {editingId && (
-                    <button type="button" onClick={() => { setEditingId(null); setFormData({course_code:'', course_name:'', lecturer:'', location:'', day_of_week:'0', start_time:'', end_time:''}); }} className="flex-1 bg-gray-200 text-gray-700 py-2 font-bold text-sm hover:bg-gray-300 transition-colors rounded-sm shadow-sm">
+                    <button 
+                      type="button" 
+                      onClick={resetForm} 
+                      className="flex-1 bg-gray-200 text-gray-700 py-2 font-bold text-sm hover:bg-gray-300 transition-colors rounded-sm shadow-sm"
+                    >
                       Cancel
                     </button>
                   )}
