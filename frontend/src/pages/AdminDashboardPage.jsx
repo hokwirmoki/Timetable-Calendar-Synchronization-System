@@ -4,6 +4,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { removeAuthToken, getUserContext, getAuthToken } from '../lib/authHelpers';
 import { LogOut, Calendar, Plus, Edit2, Trash2 } from 'lucide-react';
+const DEFAULT_FORM_DATA = {
+  course_code: '', 
+  course_name: '', 
+  lecturer: '', 
+  location: '', 
+  day_of_week: '0', 
+  start_time: '', 
+  end_time: ''
+};
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
@@ -14,9 +23,17 @@ export default function AdminDashboardPage() {
   
   // Form State
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({
-    course_code: '', course_name: '', lecturer: '', location: '', day_of_week: '0', start_time: '', end_time: ''
-  });
+ const defaultFormData = {
+  course_code: '', 
+  course_name: '', 
+  lecturer: '', 
+  location: '', 
+  day_of_week: '0', 
+  start_time: '', 
+  end_time: ''
+};
+
+const [formData, setFormData] = useState(defaultFormData);
 
   const fetchEvents = async () => {
     try {
