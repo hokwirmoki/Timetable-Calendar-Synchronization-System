@@ -1,3 +1,5 @@
+// Commit 1/3 - Added header documentation
+// Admin Dashboard Page - Timetable Management Interface
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { removeAuthToken, getUserContext, getAuthToken } from '../lib/authHelpers';
